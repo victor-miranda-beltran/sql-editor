@@ -4,7 +4,7 @@
 	<portlet>
 		<portlet-name>sql-editor</portlet-name>
 		<display-name>SQL Editor</display-name>
-		<portlet-class>com.liferay.util.bridges.mvc.MVCPortlet</portlet-class>
+		<portlet-class>com.victormiranda.liferay.sqleditor.portlet.SQLEditorPortlet</portlet-class>
 		<init-param>
 			<name>view-template</name>
 			<value>/view.jsp</value>

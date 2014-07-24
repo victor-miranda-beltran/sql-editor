@@ -10,6 +10,10 @@
 	margin-right: 10px;
 }
 
+.sql-editor .objects-tree li {
+	list-style-type: none;
+}
+
 .sql-editor  .editor {
 	height: 500px;
 	margin-top:8px;

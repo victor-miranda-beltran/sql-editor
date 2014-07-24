@@ -1,5 +1,7 @@
 AUI.add('sql-editor', function (Y) {
 
+	var EMPTY_STR = '';
+
 	/**
 	 *  SQL Editor widget
 	 */
@@ -83,9 +85,57 @@ AUI.add('sql-editor', function (Y) {
 				on:	{
 					success : function (id,res) {
 						var data = JSON.parse(this.get('responseData'));
+
+						var rs = data.results;
+						var elements = data.elements;
+
+						instance._showResults(elements, rs);
 					}
 				}
 			});
+		},
+
+		_showResults : function(elements, rs) {
+
+			var instance = this;
+
+			var resultDT = instance.get('resultDT');
+
+			if(resultDT) {
+				resultDT.hide();
+				Y.one('.sql-editor .results').html(EMPTY_STR);
+			}
+
+			resultDT = new Y.DataTable(
+				{
+					scrollable: "xy",
+					width: '100%',
+					destroyOnHide:true
+				}
+			);
+
+			instance.set('resultDT', resultDT);
+
+			if (rs[0]) {
+				var currentColumnSet = Object.keys(rs[0]);
+
+				resultDT.set('columnset', currentColumnSet);
+				resultDT.set('recordset', rs);
+			}
+
+			resultDT.render('.results');
+
+			var resultsDiv = Y.one('.sql-editor .results');
+
+			var aceDiv = Y.one('.sql-editor .sql-box');
+
+			resultsDiv.setStyle('height', 'auto');
+			var resultsSize = resultsDiv.get('offsetHeight');
+
+			aceDiv.setStyle('bottom', resultsSize);
+			aceDiv.setStyle('height', 'auto');
+
+			instance.get('aceEditor').getEditor().resize();
 		}
 
 	},{
@@ -102,6 +152,9 @@ AUI.add('sql-editor', function (Y) {
 			aceEditor: {
 				value: undefined
 			},
+			resultDT: {
+				value: undefined
+			},
 			executeQueryActionURL: {
 				value: undefined
 			}
@@ -111,5 +164,5 @@ AUI.add('sql-editor', function (Y) {
 
 },'0.0.1', {
 	requires:
-		['base','event','aui-tree-view','aui-ace-editor','io'] }
+		['base','event','aui-tree-view','aui-ace-editor','io','aui-datatable'] }
 );

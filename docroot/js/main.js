@@ -62,6 +62,12 @@ AUI.add('sql-editor', function (Y) {
 				var sql = instance.get('aceEditor').get('value');
 				instance._executeQuery(sql);
 			});
+
+			var filterInput = Y.one('.sql-editor .input-search-table');
+
+			filterInput.on('keyup', function (e) {
+				instance.filterObjectTree(e.currentTarget.val());
+			});
 		},
 
 		renderUI: function() {
@@ -93,6 +99,24 @@ AUI.add('sql-editor', function (Y) {
 					}
 				}
 			});
+		},
+
+		filterObjectTree: function(filter) {
+			var instance = this;
+
+			var tables = instance.get('tables');
+
+			for(var i in tables) {
+				var label = tables[i].label.toLowerCase();
+				var tableId = tables[i].id;
+
+				if (label.indexOf(filter.toLowerCase()) != -1) {
+					Y.one('#' + tableId).show();
+				}
+				else {
+					Y.one('#' + tableId).hide();
+				}
+			}
 		},
 
 		_showResults : function(elements, rs) {

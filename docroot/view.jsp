@@ -19,7 +19,7 @@
 
 <portlet:defineObjects />
 
-<div class="sql-editor">
+<div class="sql-editor hide">
 
 	<div class="container-fluid">
 

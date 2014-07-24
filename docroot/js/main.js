@@ -103,6 +103,8 @@ AUI.add('sql-editor', function (Y) {
 			filterInput.on('keyup', function (e) {
 				instance.filterObjectTree(e.currentTarget.val());
 			});
+
+			Y.on('windowresize', instance._adjustSize);
 		},
 
 		renderUI: function() {
@@ -110,6 +112,9 @@ AUI.add('sql-editor', function (Y) {
 
 			instance.get('tablesTree').render();
 			instance.get('aceEditor').render();
+
+			instance._adjustSize();
+			Y.one('.sql-editor').show();
 		},
 
 		_executeQuery: function(sql, start, length) {
@@ -202,6 +207,20 @@ AUI.add('sql-editor', function (Y) {
 			instance.get('paginator').set('total',(numElements / PAGE_SIZE) + 1);
 
 			instance.get('paginator').render();
+		},
+
+		_adjustSize : function() {
+			var instance = this;
+
+			var winHeight = Y.one("body").get("winHeight");
+
+			Y.one('.objects-tree').setStyle('height', winHeight -220);
+
+			Y.one('.editor').setStyle('height', winHeight -220);
+
+			Y.one('.sql-box').setStyle('height', winHeight -220);
+
+			instance.get('aceEditor').getEditor().resize();
 		}
 
 	},{

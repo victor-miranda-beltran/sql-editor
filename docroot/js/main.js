@@ -7,6 +7,22 @@ AUI.add('sql-editor', function (Y) {
 
 		initializer: function(config) {
 			var instance = this;
+
+			var tables = instance.get('tables');
+
+			var tablesTree = new Y.TreeView({
+				srcNode: '.sql-editor .tree',
+				children: [
+					{
+						children: tables,
+						expanded: true,
+						label: 'Portal tables ('+ tables.length +')'
+					}
+				],
+				type: 'file'
+			});
+
+			instance.set('tablesTree', tablesTree);
 		},
 
 		bindUI: function() {
@@ -16,11 +32,18 @@ AUI.add('sql-editor', function (Y) {
 		renderUI: function() {
 			var instance = this;
 
+			instance.get('tablesTree').render();
 		}
 
 	},{
 		ATTRS: {
 			editor: {
+				value: undefined
+			},
+			tables: {
+				value: undefined
+			},
+			tablesTree: {
 				value: undefined
 			}
 		}

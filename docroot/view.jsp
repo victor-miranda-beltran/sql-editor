@@ -61,3 +61,16 @@
 	</div>
 
 </div>
+
+<script type="application/javascript">
+
+	AUI({debug: true}).use('base','event','io','json-parse','sql-editor',function(Y) {
+
+		var sqlEditor = new Y.SQLEditor({
+			tables: JSON.parse('${tables}')
+		});
+
+		sqlEditor.render();
+	});
+
+</script>

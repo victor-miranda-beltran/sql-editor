@@ -1,7 +1,8 @@
 AUI.add('sql-editor', function (Y) {
 
 	var EMPTY_STR = '',
-		PAGE_SIZE = 10;
+		PAGE_SIZE = 10,
+		_sqlProcessor = new Y.AceEditor.AutoCompleteSQL();
 
 	/**
 	 *  SQL Editor widget
@@ -31,8 +32,19 @@ AUI.add('sql-editor', function (Y) {
 				boundingBox: '.sql-editor .sql-box',
 				value: 'select * from User_;',
 				width: '100%',
-				height: '100%'
+				height: '100%',
+				plugins: [{
+					fn: Y.Plugin.AceAutoComplete,
+					cfg: {
+						processor: _sqlProcessor,
+						render: true,
+						visible: false,
+						zIndex: 1000
+					}
+				}]
 			});
+
+			_sqlProcessor.set('schema', tables);
 
 			aceEditor.getEditor().setFontSize(22);
 
@@ -224,5 +236,5 @@ AUI.add('sql-editor', function (Y) {
 
 },'0.0.1', {
 	requires:
-		['base','event','aui-tree-view','aui-ace-editor','io','aui-datatable','aui-pagination'] }
+		['base','event','aui-tree-view','aui-ace-editor','io','aui-datatable','aui-pagination','aui-ace-autocomplete-plugin','sql-autocomplete'] }
 );

@@ -9,6 +9,7 @@
 		<control-panel-entry-weight>10.0</control-panel-entry-weight>
 		<requires-namespaced-parameters>false</requires-namespaced-parameters>
 		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-javascript>/js/sql-autocomplete.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
 		<css-class-wrapper>sql-editor-portlet</css-class-wrapper>
 	</portlet>

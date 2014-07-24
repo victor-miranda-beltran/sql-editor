@@ -15,7 +15,49 @@
 %>
 
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
+<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
 
 <portlet:defineObjects />
 
-This is the <b>SQL Editor</b> portlet.
+<div class="sql-editor">
+
+	<div class="container-fluid">
+
+		<div class="left-box span3">
+
+			<div class="form-group row">
+				<div>
+					<input type="text" placeholder="Search..." class="form-control input-search-table" >
+					<span class="glyphicon glyphicon-user"></span>
+				</div>
+			</div>
+
+			<div class="objects-tree row">
+				<div class="tree"></div>
+			</div>
+
+		</div>
+
+		<div class="main span9">
+
+			<div class="toolbar row">
+				<aui:button-row>
+					<aui:button icon="icon-play" value="Execute query" cssClass="btn btn-primary execute-query"></aui:button>
+				</aui:button-row>
+			</div>
+
+			<div class="editor row">
+				<div class="sql-editor">
+
+				</div>
+
+				<div class="results">
+
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>

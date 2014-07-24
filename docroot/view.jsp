@@ -67,7 +67,8 @@
 	AUI({debug: true}).use('base','event','io','json-parse','sql-editor',function(Y) {
 
 		var sqlEditor = new Y.SQLEditor({
-			tables: JSON.parse('${tables}')
+			tables: JSON.parse('${tables}'),
+			executeQueryActionURL: '<portlet:resourceURL id="executeQuery"></portlet:resourceURL>'
 		});
 
 		sqlEditor.render();

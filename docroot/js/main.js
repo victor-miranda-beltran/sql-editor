@@ -38,6 +38,28 @@ AUI.add('sql-editor', function (Y) {
 
 		bindUI: function() {
 			var instance = this;
+
+			var aceEditor = instance.get('aceEditor');
+
+			aceEditor.getEditor().commands.addCommand({
+				name: 'executeScript',
+				bindKey: {
+					win: 'Ctrl-Enter',
+					mac: 'Command-Enter',
+					sender: 'editor|cli'
+				},
+				exec: function(env, args, request) {
+					var sql = aceEditor.get('value');
+					instance._executeQuery(sql);
+				}
+			});
+
+			var executeQueryButton = Y.one('.sql-editor .execute-query');
+
+			executeQueryButton.on('click', function () {
+				var sql = instance.get('aceEditor').get('value');
+				instance._executeQuery(sql);
+			});
 		},
 
 		renderUI: function() {
@@ -45,6 +67,25 @@ AUI.add('sql-editor', function (Y) {
 
 			instance.get('tablesTree').render();
 			instance.get('aceEditor').render();
+		},
+
+		_executeQuery: function(sql, start, length) {
+			var instance = this;
+
+			var url = instance.get('executeQueryActionURL');
+
+			Y.io.request(url, {
+				data: {
+					query: sql,
+					start: start,
+					length: length
+				},
+				on:	{
+					success : function (id,res) {
+						var data = JSON.parse(this.get('responseData'));
+					}
+				}
+			});
 		}
 
 	},{
@@ -60,6 +101,9 @@ AUI.add('sql-editor', function (Y) {
 			},
 			aceEditor: {
 				value: undefined
+			},
+			executeQueryActionURL: {
+				value: undefined
 			}
 		}
 	});
@@ -67,5 +111,5 @@ AUI.add('sql-editor', function (Y) {
 
 },'0.0.1', {
 	requires:
-		['base','event','aui-tree-view','aui-ace-editor'] }
+		['base','event','aui-tree-view','aui-ace-editor','io'] }
 );

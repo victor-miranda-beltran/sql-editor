@@ -1,6 +1,7 @@
 AUI.add('sql-editor', function (Y) {
 
-	var EMPTY_STR = '';
+	var EMPTY_STR = '',
+		PAGE_SIZE = 10;
 
 	/**
 	 *  SQL Editor widget
@@ -36,6 +37,28 @@ AUI.add('sql-editor', function (Y) {
 			aceEditor.getEditor().setFontSize(22);
 
 			instance.set('aceEditor', aceEditor);
+
+			var paginator = new Y.Pagination(
+				{
+					after: {
+						changeRequest: function(event) {
+							var start = (event.state.page-1) * PAGE_SIZE;
+							var sql = instance.get('latestQuery');
+
+							instance._executeQuery(sql, start, PAGE_SIZE);
+						}
+					},
+					boundingBox: '.paginator',
+					offset: 1,
+					page: 0,
+					strings: {
+						next: '»',
+						prev: '«'
+					}
+				}
+			);
+
+			instance.set('paginator', paginator);
 		},
 
 		bindUI: function() {
@@ -82,6 +105,8 @@ AUI.add('sql-editor', function (Y) {
 
 			var url = instance.get('executeQueryActionURL');
 
+			instance.set('latestQuery', sql);
+
 			Y.io.request(url, {
 				data: {
 					query: sql,
@@ -93,9 +118,9 @@ AUI.add('sql-editor', function (Y) {
 						var data = JSON.parse(this.get('responseData'));
 
 						var rs = data.results;
-						var elements = data.elements;
+						var numElements = data.numElements;
 
-						instance._showResults(elements, rs);
+						instance._showResults(numElements, rs);
 					}
 				}
 			});
@@ -119,7 +144,7 @@ AUI.add('sql-editor', function (Y) {
 			}
 		},
 
-		_showResults : function(elements, rs) {
+		_showResults : function(numElements, rs) {
 
 			var instance = this;
 
@@ -154,12 +179,17 @@ AUI.add('sql-editor', function (Y) {
 			var aceDiv = Y.one('.sql-editor .sql-box');
 
 			resultsDiv.setStyle('height', 'auto');
+
 			var resultsSize = resultsDiv.get('offsetHeight');
 
 			aceDiv.setStyle('bottom', resultsSize);
 			aceDiv.setStyle('height', 'auto');
 
 			instance.get('aceEditor').getEditor().resize();
+
+			instance.get('paginator').set('total',(numElements / PAGE_SIZE) + 1);
+
+			instance.get('paginator').render();
 		}
 
 	},{
@@ -179,7 +209,13 @@ AUI.add('sql-editor', function (Y) {
 			resultDT: {
 				value: undefined
 			},
+			paginator: {
+				value: undefined
+			},
 			executeQueryActionURL: {
+				value: undefined
+			},
+			latestQuery : {
 				value: undefined
 			}
 		}
@@ -188,5 +224,5 @@ AUI.add('sql-editor', function (Y) {
 
 },'0.0.1', {
 	requires:
-		['base','event','aui-tree-view','aui-ace-editor','io','aui-datatable'] }
+		['base','event','aui-tree-view','aui-ace-editor','io','aui-datatable','aui-pagination'] }
 );

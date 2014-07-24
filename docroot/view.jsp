@@ -56,6 +56,8 @@
 				</div>
 			</div>
 
+			<div class="paginator pull-right"></div>
+
 		</div>
 
 	</div>

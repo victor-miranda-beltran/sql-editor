@@ -23,6 +23,17 @@ AUI.add('sql-editor', function (Y) {
 			});
 
 			instance.set('tablesTree', tablesTree);
+
+			var aceEditor = new Y.AceEditor({
+				boundingBox: '.sql-editor .sql-box',
+				value: 'select * from User_;',
+				width: '100%',
+				height: '100%'
+			});
+
+			aceEditor.getEditor().setFontSize(22);
+
+			instance.set('aceEditor', aceEditor);
 		},
 
 		bindUI: function() {
@@ -33,6 +44,7 @@ AUI.add('sql-editor', function (Y) {
 			var instance = this;
 
 			instance.get('tablesTree').render();
+			instance.get('aceEditor').render();
 		}
 
 	},{
@@ -45,6 +57,9 @@ AUI.add('sql-editor', function (Y) {
 			},
 			tablesTree: {
 				value: undefined
+			},
+			aceEditor: {
+				value: undefined
 			}
 		}
 	});
@@ -52,5 +67,5 @@ AUI.add('sql-editor', function (Y) {
 
 },'0.0.1', {
 	requires:
-		['base','event','aui-tree-view'] }
+		['base','event','aui-tree-view','aui-ace-editor'] }
 );

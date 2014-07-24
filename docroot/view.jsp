@@ -47,7 +47,7 @@
 			</div>
 
 			<div class="editor row">
-				<div class="sql-editor">
+				<div class="sql-box">
 
 				</div>
 

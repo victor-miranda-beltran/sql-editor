@@ -18,6 +18,9 @@
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
 
 <portlet:defineObjects />
+<portlet:renderURL var="saveSnippet">
+	<portlet:param name="jspPage" value="save-snippet.jsp" />
+</portlet:renderURL>
 
 <div class="sql-editor hide">
 
@@ -43,6 +46,7 @@
 			<div class="toolbar row">
 				<aui:button-row>
 					<aui:button icon="icon-play" value="Execute query" cssClass="btn btn-primary execute-query"></aui:button>
+					<aui:button icon="icon-save" value="Save as snippet" cssClass="btn btn-primary save-snippet"></aui:button>
 					<aui:button icon="icon-download" value="Export as CSV" disabled="disabled" cssClass="btn btn-primary export-csv"></aui:button>
 				</aui:button-row>
 			</div>

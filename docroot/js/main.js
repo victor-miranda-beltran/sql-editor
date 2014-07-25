@@ -30,7 +30,7 @@ AUI.add('sql-editor', function (Y) {
 
 			var aceEditor = new Y.AceEditor({
 				boundingBox: '.sql-editor .sql-box',
-				value: 'select * from User_;',
+				value: 'SELECT \n\t\t*\n\tFROM\n\t\tUser_\n\tWHERE\n\t\tUser_.userId != 3',
 				width: '100%',
 				height: '100%',
 				plugins: [{
@@ -96,6 +96,14 @@ AUI.add('sql-editor', function (Y) {
 			executeQueryButton.on('click', function () {
 				var sql = instance.get('aceEditor').get('value');
 				instance._executeQuery(sql);
+			});
+
+			var saveSnippetButton = Y.one('.sql-editor .save-snippet');
+
+			saveSnippetButton.on('click', function () {
+				var sql = instance.get('aceEditor').get('value');
+
+				instance._openSaveSnippetDialog(sql);
 			});
 
 			var exportCSVButton = Y.one('.sql-editor .export-csv');
@@ -196,6 +204,29 @@ AUI.add('sql-editor', function (Y) {
 			}
 		},
 
+		_openSaveSnippetDialog : function(sql) {
+			var instance = this;
+
+			var renderURL = Liferay.PortletURL.createRenderURL();
+			renderURL.setParameter("query", sql);
+			renderURL.setParameter("jspPage", "/save-snippet.jsp");
+			renderURL.setWindowState("pop_up");
+			renderURL.setPortletId("sqleditor_WAR_sqleditorportlet");
+
+			Liferay.Util.openWindow(
+				{
+					dialog: {
+						width: 820,
+						height: 'auto'
+					},
+					id: '<portlet:namespace />SaveSnippetDialog',
+					title: 'Save sql as snippet',
+					uri: renderURL.toString()
+				}
+			);
+
+		},
+
 		_showResults : function(numElements, rs) {
 
 			var instance = this;
@@ -294,5 +325,5 @@ AUI.add('sql-editor', function (Y) {
 
 },'0.0.1', {
 	requires:
-		['base','event','aui-tree-view','aui-ace-editor','io','aui-datatable','aui-pagination','aui-ace-autocomplete-plugin','sql-autocomplete','liferay-portlet-url'] }
+		['base','event','aui-tree-view','aui-ace-editor','io','aui-datatable','aui-pagination','aui-ace-autocomplete-plugin','sql-autocomplete','liferay-portlet-url','aui-dialog'] }
 );

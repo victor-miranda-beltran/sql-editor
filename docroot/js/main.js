@@ -98,6 +98,14 @@ AUI.add('sql-editor', function (Y) {
 				instance._executeQuery(sql);
 			});
 
+			var exportCSVButton = Y.one('.sql-editor .export-csv');
+
+			exportCSVButton.on('click', function () {
+				var sql = instance.get('latestQuery');
+
+				instance._exportCSV(sql);
+			});
+
 			var filterInput = Y.one('.sql-editor .input-search-table');
 
 			filterInput.on('keyup', function (e) {
@@ -141,6 +149,17 @@ AUI.add('sql-editor', function (Y) {
 					}
 				}
 			});
+		},
+
+		_exportCSV: function(sql) {
+			var instance = this;
+
+			var resourceURL= Liferay.PortletURL.createResourceURL();
+			resourceURL.setParameter("query", sql);
+			resourceURL.setResourceId("exportCSV");
+			resourceURL.setPortletId("sqleditor_WAR_sqleditorportlet");
+
+			window.location.href = resourceURL.toString();
 		},
 
 		filterObjectTree: function(filter) {
@@ -255,5 +274,5 @@ AUI.add('sql-editor', function (Y) {
 
 },'0.0.1', {
 	requires:
-		['base','event','aui-tree-view','aui-ace-editor','io','aui-datatable','aui-pagination','aui-ace-autocomplete-plugin','sql-autocomplete'] }
+		['base','event','aui-tree-view','aui-ace-editor','io','aui-datatable','aui-pagination','aui-ace-autocomplete-plugin','sql-autocomplete','liferay-portlet-url'] }
 );

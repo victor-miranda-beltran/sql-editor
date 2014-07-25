@@ -60,12 +60,19 @@ public class SQLEngine implements Serializable {
 
 			results.put(obj);
 		}
-
 		executionResult.setResults(results);
 		executionResult.setNumElements(count);
 		executionResult.setQuery(query);
 
 		return executionResult;
+	}
+
+	public ResultSet executeQuery(String query)
+			throws SQLException {
+
+		Connection conn = _liferayDS.getConnection();
+
+		return executeQuery(conn, query);
 	}
 
 	public ResultSet executeQuery(Connection conn, String query)

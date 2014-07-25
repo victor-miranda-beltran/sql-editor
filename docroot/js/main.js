@@ -132,8 +132,15 @@ AUI.add('sql-editor', function (Y) {
 
 			var url = instance.get('executeQueryActionURL');
 
+			if (instance.get('blocked') === true) {
+				return;
+			}
+
 			instance.set('latestQuery', sql);
 			Y.one('.sql-editor .export-csv').set('disabled', false);
+
+			Y.one('.sql-editor .execute-query').set('disabled', true);
+			instance.set('blocked', true);
 
 			Y.io.request(url, {
 				data: {
@@ -149,6 +156,12 @@ AUI.add('sql-editor', function (Y) {
 						var numElements = data.numElements;
 
 						instance._showResults(numElements, rs);
+					},
+					complete : function() {
+						instance.set('blocked', false);
+
+						Y.one('.sql-editor .execute-query').set(
+							'disabled', false);
 					}
 				}
 			});
@@ -248,6 +261,9 @@ AUI.add('sql-editor', function (Y) {
 
 	},{
 		ATTRS: {
+			blocked: {
+				value: false
+			},
 			editor: {
 				value: undefined
 			},

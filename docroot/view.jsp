@@ -43,7 +43,7 @@
 			<div class="toolbar row">
 				<aui:button-row>
 					<aui:button icon="icon-play" value="Execute query" cssClass="btn btn-primary execute-query"></aui:button>
-					<aui:button icon="icon-play" value="Export CSV" cssClass="btn btn-primary export-csv"></aui:button>
+					<aui:button icon="icon-download" value="Export as CSV" disabled="disabled" cssClass="btn btn-primary export-csv"></aui:button>
 				</aui:button-row>
 			</div>
 

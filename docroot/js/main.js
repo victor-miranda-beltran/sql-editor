@@ -122,6 +122,8 @@ AUI.add('sql-editor', function (Y) {
 			instance.get('aceEditor').render();
 
 			instance._adjustSize();
+			Y.one('.sql-editor .export-csv').set('disabled', true);
+
 			Y.one('.sql-editor').show();
 		},
 
@@ -131,6 +133,7 @@ AUI.add('sql-editor', function (Y) {
 			var url = instance.get('executeQueryActionURL');
 
 			instance.set('latestQuery', sql);
+			Y.one('.sql-editor .export-csv').set('disabled', false);
 
 			Y.io.request(url, {
 				data: {
@@ -226,6 +229,7 @@ AUI.add('sql-editor', function (Y) {
 			instance.get('paginator').set('total',(numElements / PAGE_SIZE) + 1);
 
 			instance.get('paginator').render();
+
 		},
 
 		_adjustSize : function() {

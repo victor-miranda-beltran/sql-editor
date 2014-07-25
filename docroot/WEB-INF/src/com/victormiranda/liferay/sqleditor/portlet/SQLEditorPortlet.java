@@ -142,12 +142,12 @@ public class SQLEditorPortlet extends MVCPortlet {
 				}
 				sb.append(StringPool.NEW_LINE);
 			}
+			response.getWriter().write(sb.toString());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		response.getWriter().write(sb.toString());
 	}
 
 	private Log _log = LogFactoryUtil.getLog(SQLEditorPortlet.class.getName());

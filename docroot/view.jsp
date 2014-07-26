@@ -29,9 +29,9 @@
 		<div class="left-box span3">
 
 			<div class="form-group row">
-				<div>
-					<input type="text" placeholder="Search..." class="form-control input-search-table" >
-					<span class="glyphicon glyphicon-user"></span>
+				<div class="input-append">
+					<input type="text" placeholder="Search..." class="form-control input-search-table input-xlarge" >
+					<span><i class="icon-search"></i></span>
 				</div>
 			</div>
 

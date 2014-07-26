@@ -30,8 +30,10 @@
 
 			<div class="form-group row">
 				<div class="input-append">
-					<input type="text" placeholder="Search..." class="form-control input-search-table input-xlarge" >
-					<span><i class="icon-search"></i></span>
+					<input class="input-search-table input-xlarge" type="text"/>
+					<button type="submit" class="btn">
+						<i class="icon-search"></i>
+					</button>
 				</div>
 			</div>
 

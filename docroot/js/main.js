@@ -98,6 +98,12 @@ AUI.add('sql-editor', function (Y) {
 				instance._executeQuery(sql);
 			});
 
+			var loadSnippetButton = Y.one('.sql-editor .load-snippet');
+
+			loadSnippetButton.on('click', function () {
+				instance._openLoadSnippetDialog();
+			});
+
 			var saveSnippetButton = Y.one('.sql-editor .save-snippet');
 
 			saveSnippetButton.on('click', function () {
@@ -204,12 +210,33 @@ AUI.add('sql-editor', function (Y) {
 			}
 		},
 
+		_openLoadSnippetDialog : function() {
+			var instance = this;
+
+			var renderURL = Liferay.PortletURL.createRenderURL();
+			renderURL.setParameter("jspPage", "/pages/load-snippet.jsp");
+			renderURL.setWindowState("pop_up");
+			renderURL.setPortletId("sqleditor_WAR_sqleditorportlet");
+
+			Liferay.Util.openWindow(
+				{
+					dialog: {
+						width: 820,
+						height: 'auto'
+					},
+					id: '<portlet:namespace />LoadSnippetDialog',
+					title: 'Load snippet',
+					uri: renderURL.toString()
+				}
+			);
+		},
+
 		_openSaveSnippetDialog : function(sql) {
 			var instance = this;
 
 			var renderURL = Liferay.PortletURL.createRenderURL();
 			renderURL.setParameter("query", sql);
-			renderURL.setParameter("jspPage", "/save-snippet.jsp");
+			renderURL.setParameter("jspPage", "/pages/save-snippet.jsp");
 			renderURL.setWindowState("pop_up");
 			renderURL.setPortletId("sqleditor_WAR_sqleditorportlet");
 

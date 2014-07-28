@@ -27,7 +27,7 @@
 
 			<div class="form-group row">
 				<div class="input-append">
-					<input class="input-search-table input-xlarge" type="text"/>
+					<input class="input-search-table input-xlarge" placeholder="Search ..." type="text"/>
 					<button type="submit" class="btn">
 						<i class="icon-search"></i>
 					</button>

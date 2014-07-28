@@ -1,10 +1,9 @@
 <%@ page import="javax.portlet.PortletURL" %>
-<%@ page import="com.liferay.portal.service.UserLocalServiceUtil" %>
-<%@ page import="javax.portlet.WindowState" %>
 <%@ page import="com.liferay.portal.util.PortalUtil" %>
 <%@ page
 		import="com.victormiranda.liferay.sqleditor.service.SnippetEntryLocalServiceUtil" %>
-<%@ page import="com.victormiranda.liferay.sqleditor.model.SnippetEntry" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %>
 <%
 	/**
 	 * Copyright (c) 2014-present Victor Miranda. All rights reserved.
@@ -32,6 +31,8 @@
 
 <portlet:defineObjects />
 
+
+
 <%
 	PortletURL portletURL = renderResponse.createRenderURL();
 
@@ -40,7 +41,7 @@
 %>
 
 <liferay-ui:search-container
-		delta="<%= 5 %>"
+		delta="10"
 		headerNames="create-date,name,code"
 		iteratorURL="<%= portletURL %>"
 		total="<%= totalSnippets %>"
@@ -74,12 +75,34 @@
 
 		<liferay-ui:search-container-column-text
 				name="code"
-				value="<%= String.valueOf(curSnippet.getCode()) %>"
+				property="code"
 				/>
+
+		<liferay-ui:search-container-column-text>
+
+			<%
+				Map<String, Object> data = new HashMap<String, Object>();
+
+				data.put("code", curSnippet.getCode());
+			%>
+
+			<aui:button cssClass="select-snippet" data="<%= data %>" value="Load snippet" />
+		</liferay-ui:search-container-column-text>
+
 	</liferay-ui:search-container-row>
 
 	<liferay-ui:search-iterator />
 </liferay-ui:search-container>
 
-<div class="separator"></div>
 
+<aui:script use="aui-base,aui-dialog,aui-io-request">
+
+	var selectSnippetBtn = A.all(".select-snippet");
+
+	selectSnippetBtn.on('click',  function(e) {
+		var code = e.currentTarget.getAttribute('data-code');
+		Liferay.Util.getOpener().sqlEditor.get('aceEditor').getSession().setValue(code);
+		Liferay.Util.getWindow().destroy();
+	});
+
+</aui:script>

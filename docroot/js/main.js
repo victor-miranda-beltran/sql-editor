@@ -221,7 +221,7 @@ AUI.add('sql-editor', function (Y) {
 			Liferay.Util.openWindow(
 				{
 					dialog: {
-						width: 820,
+						width: 'auto',
 						height: 'auto'
 					},
 					id: '<portlet:namespace />LoadSnippetDialog',

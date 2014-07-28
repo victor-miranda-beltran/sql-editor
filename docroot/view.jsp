@@ -46,7 +46,7 @@
 				<aui:button-row>
 					<aui:button icon="icon-play" value="Execute query" cssClass="btn btn-primary execute-query"></aui:button>
 					<aui:button icon="icon-save" value="Save as snippet" cssClass="btn btn-primary save-snippet"></aui:button>
-					<aui:button icon="icon-load" value="Load snippet" cssClass="btn btn-primary load-snippet"></aui:button>
+					<aui:button icon="icon-cloud-download" value="Load snippet" cssClass="btn btn-primary load-snippet"></aui:button>
 					<aui:button icon="icon-download" value="Export as CSV" disabled="disabled" cssClass="btn btn-primary export-csv"></aui:button>
 				</aui:button-row>
 			</div>
@@ -71,9 +71,11 @@
 
 <script type="application/javascript">
 
+	var sqlEditor;
+
 	AUI({debug: true}).use('base','event','io','json-parse','sql-editor',function(Y) {
 
-		var sqlEditor = new Y.SQLEditor({
+		sqlEditor = new Y.SQLEditor({
 			tables: JSON.parse('${tables}'),
 			executeQueryActionURL: '<portlet:resourceURL id="executeQuery"></portlet:resourceURL>',
 			exportCSVActionURL: '<portlet:resourceURL id="exportCSV"></portlet:resourceURL>'

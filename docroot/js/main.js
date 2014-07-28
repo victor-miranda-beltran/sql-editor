@@ -314,6 +314,17 @@ AUI.add('sql-editor', function (Y) {
 
 			Y.one('.sql-box').setStyle('height', winHeight -220);
 
+			var resultsDiv = Y.one('.sql-editor .results');
+
+			var aceDiv = Y.one('.sql-editor .sql-box');
+
+			resultsDiv.setStyle('height', 'auto');
+
+			var resultsSize = resultsDiv.get('offsetHeight');
+
+			aceDiv.setStyle('bottom', resultsSize);
+			aceDiv.setStyle('height', 'auto');
+
 			instance.get('aceEditor').getEditor().resize();
 		}
 

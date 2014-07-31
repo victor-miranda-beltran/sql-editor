@@ -434,7 +434,8 @@ public class SnippetEntryWrapper implements SnippetEntry,
 	}
 
 	@Override
-	public int compareTo(SnippetEntry snippetEntry) {
+	public int compareTo(
+		com.victormiranda.liferay.sqleditor.model.SnippetEntry snippetEntry) {
 		return _snippetEntry.compareTo(snippetEntry);
 	}
 
@@ -444,17 +445,17 @@ public class SnippetEntryWrapper implements SnippetEntry,
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<SnippetEntry> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<com.victormiranda.liferay.sqleditor.model.SnippetEntry> toCacheModel() {
 		return _snippetEntry.toCacheModel();
 	}
 
 	@Override
-	public SnippetEntry toEscapedModel() {
+	public com.victormiranda.liferay.sqleditor.model.SnippetEntry toEscapedModel() {
 		return new SnippetEntryWrapper(_snippetEntry.toEscapedModel());
 	}
 
 	@Override
-	public SnippetEntry toUnescapedModel() {
+	public com.victormiranda.liferay.sqleditor.model.SnippetEntry toUnescapedModel() {
 		return new SnippetEntryWrapper(_snippetEntry.toUnescapedModel());
 	}
 

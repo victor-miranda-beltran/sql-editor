@@ -227,7 +227,6 @@ public interface SnippetEntryModel extends BaseModel<SnippetEntry>,
 	 *
 	 * @return the code of this snippet entry
 	 */
-	@AutoEscape
 	public String getCode();
 
 	/**

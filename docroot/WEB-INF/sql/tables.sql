@@ -8,5 +8,5 @@ create table Snippets_SnippetEntry (
 	createDate DATE null,
 	modifiedDate DATE null,
 	name VARCHAR(75) null,
-	code_ VARCHAR(75) null
+	code_ STRING null
 );

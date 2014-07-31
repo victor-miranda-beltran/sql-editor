@@ -43,11 +43,11 @@ public class OracleDialog implements SQLDialog, Serializable {
 		SortedMap<String,List<String>> results = new TreeMap<String, List<String>>();
 
 		String q = "SELECT USER_TABLES.TABLE_NAME, \n" +
-				"USER_TAB_COLUMNS.COLUMN_NAME \n" +
-				"FROM USER_TABLES,USER_TAB_COLUMNS \n" +
-				"WHERE USER_TABLES.TABLE_NAME = \n" +
-				"USER_TAB_COLUMNS.TABLE_NAME\n" +
-				"ORDER BY USER_TABLES.TABLE_NAME";
+			"USER_TAB_COLUMNS.COLUMN_NAME \n" +
+			"FROM USER_TABLES,USER_TAB_COLUMNS \n" +
+			"WHERE USER_TABLES.TABLE_NAME = \n" +
+			"USER_TAB_COLUMNS.TABLE_NAME\n" +
+			"ORDER BY USER_TABLES.TABLE_NAME";
 
 		Statement stmt = conn.createStatement();
 

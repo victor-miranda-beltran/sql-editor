@@ -79,7 +79,7 @@ public class SnippetEntryModelImpl extends BaseModelImpl<SnippetEntry>
 			{ "name", Types.VARCHAR },
 			{ "code_", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Snippets_SnippetEntry (uuid_ VARCHAR(75) null,snippetId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,name VARCHAR(75) null,code_ VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table Snippets_SnippetEntry (uuid_ VARCHAR(75) null,snippetId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,name VARCHAR(75) null,code_ STRING null)";
 	public static final String TABLE_SQL_DROP = "drop table Snippets_SnippetEntry";
 	public static final String ORDER_BY_JPQL = " ORDER BY snippetEntry.createDate ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Snippets_SnippetEntry.createDate ASC";

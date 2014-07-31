@@ -15,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Victor Miranda
@@ -24,7 +26,23 @@ public class SQLEngine implements Serializable {
 	private SQLEngine() {
 		_liferayDS = InfrastructureUtil.getDataSource();
 
-		DRIVER = com.liferay.portal.kernel.util.PropsUtil.get(PropsKeys.JDBC_DEFAULT_DRIVER_CLASS_NAME);
+		DRIVER = com.liferay.portal.kernel.util.PropsUtil.get(
+			PropsKeys.JDBC_DEFAULT_DRIVER_CLASS_NAME);
+
+		//TODO improve this fragment
+		if(MysqlDialog.getDriverClass().equals(DRIVER)) {
+			dialog = new MysqlDialog();
+		}
+		else if (OracleDialog.getDriverClass().equals(DRIVER)) {
+			dialog = new OracleDialog();
+		}
+		else if (HsqlDialog.getDriverClass().equals(DRIVER)) {
+			dialog = new HsqlDialog();
+		}
+		else {
+			throw new IllegalStateException();
+		}
+
 	}
 
 	public static synchronized SQLEngine getInstance() {
@@ -43,7 +61,9 @@ public class SQLEngine implements Serializable {
 
 		ExecutionResult executionResult = new ExecutionResult();
 
-		ResultSet rs = executeQuery(conn, getLimitedQuery(query, start, length));
+		String limitedQuery = getLimitedQuery(query, start, length);
+
+		ResultSet rs = executeQuery(conn, limitedQuery);
 
 		ResultSetMetaData md = rs.getMetaData();
 		int columns = md.getColumnCount();
@@ -90,18 +110,30 @@ public class SQLEngine implements Serializable {
 		JSONArray tableArray = JSONFactoryUtil.createJSONArray();
 
 		Connection conn = _liferayDS.getConnection();
-		DatabaseMetaData dbmd = conn.getMetaData();
 
-		ResultSet tables = dbmd.getTables(null, null, null, TABLE_TYPES);
+		Map<String,List<String>> tables = dialog.getTables(conn);
 
-		while (tables.next()) {
-			String tableName = tables.getString(TABLE_NAME);
+		for (Map.Entry<String,List<String>> e : tables.entrySet()) {
+			String tableName = e.getKey();
 
 			JSONObject tableObject = JSONFactoryUtil.createJSONObject();
 
 			tableObject.put("label", tableName);
 			tableObject.put("id", tableName);
-			tableObject.put("children", getTableFields(dbmd, tableName));
+
+			JSONArray children = JSONFactoryUtil.createJSONArray();
+
+			List<String> tableFieldsList = e.getValue();
+
+			for (String tableField : tableFieldsList) {
+				JSONObject tableFieldObj = JSONFactoryUtil.createJSONObject();
+				tableFieldObj.put("label", tableField);
+				tableFieldObj.put("id", tableField);
+
+				children.put(tableFieldObj);
+
+			}
+			tableObject.put("children", children);
 
 			tableArray.put(tableObject);
 		}
@@ -113,20 +145,13 @@ public class SQLEngine implements Serializable {
 		if (query.trim().endsWith(";")) {
 			query = query.trim().substring(0,query.trim().length()-1);
 		}
+
 		if (start == -1) {
 			start = 0;
 			length = 10;
 		}
 
-		if ("com.mysql.jdbc.Driver".equals(DRIVER)) {
-			query = query + " LIMIT " + start+ ", " + length + ";";
-
-		}
-		else if ("org.hsqldb.jdbcDriver".equals(DRIVER)) {
-			query = query + " LIMIT " + length + " OFFSET " + start + ";";
-		}
-
-
+		query = dialog.getLimitQuery(query, start, length);
 		System.out.println(query);
 		return query;
 	}
@@ -137,11 +162,12 @@ public class SQLEngine implements Serializable {
 			query = query.trim().substring(0,query.trim().length()-1);
 		}
 
-		String countQuery = "SELECT COUNT(*) FROM (" + query + ") as total;";
+		String countQuery = dialog.getCountFromQuery(query);
 
 		Statement stmt = conn.createStatement();
 
 		ResultSet rs = stmt.executeQuery(countQuery);
+
 		while(rs.next()) {
 			return rs.getLong(1);
 		}
@@ -149,35 +175,12 @@ public class SQLEngine implements Serializable {
 		return 0;
 	}
 
-	private JSONArray getTableFields(DatabaseMetaData dbmd, String tableName)
-			throws SQLException {
-
-		JSONArray fieldsArray = JSONFactoryUtil.createJSONArray();
-
-		ResultSet fields = dbmd.getColumns(null, null, tableName, null);
-
-		while (fields.next()) {
-			JSONObject fieldObject = JSONFactoryUtil.createJSONObject();
-
-			fieldObject.put("label", fields.getString(COLUMN_NAME));
-
-			fieldsArray.put(fieldObject);
-		}
-
-		return fieldsArray;
-	}
-
 	private final DataSource _liferayDS;
 
 	private static SQLEngine _instance;
 
+	private final SQLDialog dialog;
+
 	private final String DRIVER;
-
-	private static final String COLUMN_NAME = "COLUMN_NAME";
-
-	private static final String TABLE_NAME = "TABLE_NAME";
-
-	private static final String[] TABLE_TYPES = {"TABLE"};
-
 
 }

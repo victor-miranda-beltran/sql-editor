@@ -32,6 +32,7 @@ AUI.add('sql-editor', function (Y) {
 				boundingBox: '.sql-editor .sql-box',
 				value: 'SELECT \n\t\t*\n\tFROM\n\t\tUser_\n\tWHERE\n\t\tUser_.userId != 3',
 				width: '100%',
+				mode: 'sql',
 				height: '100%',
 				plugins: [{
 					fn: Y.Plugin.AceAutoComplete,
@@ -47,6 +48,8 @@ AUI.add('sql-editor', function (Y) {
 			_sqlProcessor.set('schema', tables);
 
 			aceEditor.getEditor().setFontSize(22);
+
+			aceEditor.getEditor().setTheme('ace/theme/textmate');
 
 			instance.set('aceEditor', aceEditor);
 

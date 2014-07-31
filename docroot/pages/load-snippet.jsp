@@ -94,6 +94,11 @@
 	<liferay-ui:search-iterator />
 </liferay-ui:search-container>
 
+<div class="pull-right">
+	<aui:button value="Cancel" id='<%= renderResponse.getNamespace() + "CloseLoadSnippetBtn" %>' class="btn" />
+</div>
+
+
 
 <aui:script use="aui-base,aui-dialog,aui-io-request">
 
@@ -104,5 +109,12 @@
 		Liferay.Util.getOpener().sqlEditor.get('aceEditor').getSession().setValue(code);
 		Liferay.Util.getWindow().destroy();
 	});
+
+	var closeSnippetWindow = A.one("#<portlet:namespace />CloseLoadSnippetBtn");
+
+	closeSnippetWindow.on('click',function() {
+		Liferay.Util.getWindow().destroy();
+	});
+
 
 </aui:script>

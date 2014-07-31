@@ -41,7 +41,7 @@
 
 			<div class="pull-right">
 				<aui:button value="Save" id='<%= renderResponse.getNamespace() + "SaveSnippetBtn" %>' class="btn" />
-				<aui:button value="Cancel" class="btn" />
+				<aui:button value="Cancel" id='<%= renderResponse.getNamespace() + "CloseSnippetBtn" %>' class="btn" />
 			</div>
 
 		</aui:form>
@@ -70,6 +70,12 @@
 				}
 			}
 		});
+	});
+
+	var closeSnippetWindow = A.one("#<portlet:namespace />CloseSnippetBtn");
+
+	closeSnippetWindow.on('click',function() {
+		Liferay.Util.getWindow().destroy();
 	});
 
 </aui:script>

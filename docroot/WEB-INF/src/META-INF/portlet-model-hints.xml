@@ -11,6 +11,9 @@
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
 		<field name="name" type="String" />
-		<field name="code" type="String" />
+		<field name="code" type="String">
+			<hint-collection name="TEXTAREA" />
+			<hint name="auto-escape">false</hint>
+		</field>
 	</model>
 </model-hints>

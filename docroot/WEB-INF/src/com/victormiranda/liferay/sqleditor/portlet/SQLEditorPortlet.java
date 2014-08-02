@@ -63,7 +63,8 @@ public class SQLEditorPortlet extends MVCPortlet {
 
 	@ProcessAction(name = "saveSnippet")
 	public void saveSnippet(
-			ActionRequest actionRequest, ActionResponse actionResponse) {
+			ActionRequest actionRequest, ActionResponse actionResponse)
+		throws Exception {
 
 		_log.debug("doView");
 

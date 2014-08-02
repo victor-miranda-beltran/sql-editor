@@ -5,12 +5,12 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.InfrastructureUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.victormiranda.liferay.sqleditor.beans.ExecutionResult;
 
 import javax.sql.DataSource;
 import java.io.Serializable;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -26,26 +26,8 @@ public class SQLEngine implements Serializable {
 	private SQLEngine() {
 		_liferayDS = InfrastructureUtil.getDataSource();
 
-		DRIVER = com.liferay.portal.kernel.util.PropsUtil.get(
-			PropsKeys.JDBC_DEFAULT_DRIVER_CLASS_NAME);
-
-		//TODO improve this fragment
-		if(MysqlDialog.getDriverClass().equals(DRIVER)) {
-			dialog = new MysqlDialog();
-		}
-		else if (OracleDialog.getDriverClass().equals(DRIVER)) {
-			dialog = new OracleDialog();
-		}
-		else if (HsqlDialog.getDriverClass().equals(DRIVER)) {
-			dialog = new HsqlDialog();
-		}
-		else if (PostgresDialog.getDriverClass().equals(DRIVER)) {
-			dialog = new PostgresDialog();
-		}
-		else {
-			throw new IllegalStateException();
-		}
-
+		dialog = SQLDialogFactory.getDialog(
+			PropsUtil.get(PropsKeys.JDBC_DEFAULT_DRIVER_CLASS_NAME));
 	}
 
 	public static synchronized SQLEngine getInstance() {
@@ -183,7 +165,5 @@ public class SQLEngine implements Serializable {
 	private static SQLEngine _instance;
 
 	private final SQLDialog dialog;
-
-	private final String DRIVER;
 
 }

@@ -122,10 +122,10 @@ public class SQLEditorPortlet extends MVCPortlet {
 		}
 	}
 
-	private JSONObject executeQuery(ResourceResponse response,
+	private void executeQuery(ResourceResponse response,
 			String query, int start, int length) throws IOException {
 
-		JSONObject result;
+		JSONObject result = JSONFactoryUtil.createJSONObject();
 
 		try {
 			result = JSONFactoryUtil.createJSONObject();
@@ -135,16 +135,20 @@ public class SQLEditorPortlet extends MVCPortlet {
 
 			result.put("results", executionResult.getResults());
 			result.put("numElements", executionResult.getNumElements());
-
-			response.getWriter().write(result.toString());
-
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new IllegalStateException(e);
+			JSONArray errorResult = JSONFactoryUtil.createJSONArray();
+
+			JSONObject errorObject = JSONFactoryUtil.createJSONObject();
+
+			errorObject.put("error", e.getMessage());
+
+			errorResult.put(errorObject);
+
+
+			result.put("results", errorResult);
 		}
 
-
-		return result;
+		response.getWriter().write(result.toString());
 	}
 
 	private void generateCSV(ResourceResponse response, String query)

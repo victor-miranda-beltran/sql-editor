@@ -37,7 +37,9 @@ public class SQLEngine implements Serializable {
 		return _instance;
 	}
 
-	public ExecutionResult runSQL(String query, int start, int length) throws SQLException {
+	public ExecutionResult runSQL(String query, int start, int length)
+		throws SQLException {
+
 		JSONArray results = JSONFactoryUtil.createJSONArray();
 
 		Connection conn = _liferayDS.getConnection();

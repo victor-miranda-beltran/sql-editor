@@ -39,6 +39,9 @@ public class SQLEngine implements Serializable {
 		else if (HsqlDialog.getDriverClass().equals(DRIVER)) {
 			dialog = new HsqlDialog();
 		}
+		else if (PostgresDialog.getDriverClass().equals(DRIVER)) {
+			dialog = new PostgresDialog();
+		}
 		else {
 			throw new IllegalStateException();
 		}
@@ -152,7 +155,7 @@ public class SQLEngine implements Serializable {
 		}
 
 		query = dialog.getLimitQuery(query, start, length);
-		System.out.println(query);
+
 		return query;
 	}
 

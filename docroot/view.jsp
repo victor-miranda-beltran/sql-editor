@@ -61,7 +61,7 @@
 				</div>
 			</div>
 
-			<div class="paginator pull-right"></div>
+			<div class="paginator pagination-small pull-right"></div>
 
 		</div>
 

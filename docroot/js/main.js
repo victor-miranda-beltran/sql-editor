@@ -48,7 +48,7 @@ AUI.add('sql-editor', function (Y) {
 
 			_sqlProcessor.set('schema', tables);
 
-			aceEditor.getEditor().setFontSize(22);
+			aceEditor.getEditor().setFontSize(16);
 
 			aceEditor.getEditor().setTheme('ace/theme/textmate');
 

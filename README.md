@@ -3,7 +3,14 @@
 [SQL Editor](https://github.com/victormiranda/sql-editor) is a liferay portlet designed for interacting with your portal database. 
 You don't need to have direct access to your DB Machine, the connection is got from portal infraestructure.
 
+## Compatibility. 
+At this time, this portlet works with liferay 6.2 and these DBs:
+### MySQL
+### Oracle (tested with 10G)
+### Postgres
+### Hypersonic DB
 
+If your DB is not included, you can contribute writing a new SQLDialog. Its very simple
 
 
 ## Usage
@@ -41,13 +48,4 @@ You can fork this repo and build the portlet with Liferay SDK
 
 # Project status
 This project is under development, so new features will be added ASAP. If you want to contibrute, go ahead :D
-
-## Compatibility. 
-At this time, this portlet works with these DBs:
-### MySQL
-### Oracle (tested with 10G)
-### Postgres
-### Hypersonic DB
-
-If your DB is not included, you can contribute writing a new SQLDialog. Its very simple
 

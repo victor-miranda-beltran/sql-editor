@@ -5,10 +5,10 @@ You don't need to have direct access to your DB Machine, the connection is got f
 
 ## Compatibility. 
 At this time, this portlet works with liferay 6.2 and these DBs:
-### MySQL
-### Oracle (tested with 10G)
-### Postgres
-### Hypersonic DB
+- MySQL
+- Oracle (tested with 10G)
+- Postgres
+- Hypersonic DB
 
 If your DB is not included, you can contribute writing a new SQLDialog. Its very simple
 
@@ -19,7 +19,7 @@ If your DB is not included, you can contribute writing a new SQLDialog. Its very
 This portlet will be located in [Liferay Marketplace](http://www.liferay.com/marketplace). Now it is validation process.
 
 ### Option 2 - Download from here and deploy
-You can download the war file from github [WAR] (https://github.com/victormiranda/sql-editor/dist/sql-editor.war) and set it in DEPLOY folder.
+You can download the war file from github [WAR] (https://github.com/victormiranda/sql-editor/blob/master/dist/sql-editor.war?raw=true) and set it in DEPLOY folder.
  
 ### Option 3 - Fork and build
 You can fork this repo and build the portlet with Liferay SDK

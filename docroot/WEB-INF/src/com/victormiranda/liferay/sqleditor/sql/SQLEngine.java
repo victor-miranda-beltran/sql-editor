@@ -45,29 +45,43 @@ public class SQLEngine implements Serializable {
 
 		Connection conn = _liferayDS.getConnection();
 
-		long count = getCount(conn, query);
-
+		ResultSet rs;
+		long count = 0;
+		long rows = 0;
 		ExecutionResult executionResult = new ExecutionResult();
 
-		String limitedQuery = getLimitedQuery(query, start, length);
+		if (isSelectQuery(query)) {
+			count = getCount(conn, query);
 
-		ResultSet rs = executeQuery(conn, limitedQuery);
+			String limitedQuery = getLimitedQuery(query, start, length);
 
-		ResultSetMetaData md = rs.getMetaData();
-		int columns = md.getColumnCount();
+			rs = executeQuery(conn, limitedQuery);
+			ResultSetMetaData md = rs.getMetaData();
+			int columns = md.getColumnCount();
 
-		while (rs.next()) {
+			while (rs.next()) {
+				JSONObject obj = JSONFactoryUtil.createJSONObject();
+
+				for(int i=1; i<=columns; ++i) {
+					String val = rs.getObject(i) != null ?
+							rs.getObject(i).toString() :null;
+
+					obj.put(md.getColumnName(i), val);
+				}
+
+				results.put(obj);
+			}
+		}
+		else {
 			JSONObject obj = JSONFactoryUtil.createJSONObject();
 
-			for(int i=1; i<=columns; ++i) {
-				String val = rs.getObject(i) != null ?
-					rs.getObject(i).toString() :null;
+			rows = executeUpdate(conn, query);
 
-				obj.put(md.getColumnName(i), val);
-			}
+			obj.put("Rows", rows);
 
 			results.put(obj);
 		}
+
 		executionResult.setResults(results);
 		executionResult.setNumElements(count);
 		executionResult.setQuery(query);
@@ -91,6 +105,14 @@ public class SQLEngine implements Serializable {
 		ResultSet rs = stmt.executeQuery(query);
 
 		return rs;
+	}
+
+	public int executeUpdate(Connection conn, String query)
+			throws SQLException {
+
+		Statement stmt = conn.createStatement();
+
+		return  stmt.executeUpdate(query);
 	}
 
 	public JSONArray getTables() throws SQLException {
@@ -162,6 +184,14 @@ public class SQLEngine implements Serializable {
 		}
 
 		return 0;
+	}
+
+	private boolean isSelectQuery(String query) {
+		if (query != null && query.trim().toLowerCase().startsWith("select")) {
+			return true;
+		}
+
+		return false;
 	}
 
 	private final DataSource _liferayDS;

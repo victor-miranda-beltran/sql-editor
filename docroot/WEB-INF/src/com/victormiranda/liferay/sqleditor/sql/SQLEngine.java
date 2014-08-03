@@ -63,6 +63,8 @@ public class SQLEngine implements Serializable {
 			int columns = md.getColumnCount();
 
 			while (rs.next()) {
+				obj = JSONFactoryUtil.createJSONObject();
+
 				for(int i=1; i<=columns; ++i) {
 					String val = rs.getObject(i) != null ?
 						rs.getObject(i).toString() :null;

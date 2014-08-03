@@ -53,3 +53,8 @@
 	white-space: nowrap;
 	background: #FFF;
 }
+
+.sql-editor .pagination {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}

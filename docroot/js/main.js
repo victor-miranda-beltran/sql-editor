@@ -312,11 +312,11 @@ AUI.add('sql-editor', function (Y) {
 
 			var winHeight = Y.one("body").get("winHeight");
 
-			Y.one('.objects-tree').setStyle('height', winHeight -220);
+			Y.one('.objects-tree').setStyle('height', winHeight -250);
 
-			Y.one('.editor').setStyle('height', winHeight -220);
+			Y.one('.editor').setStyle('height', winHeight -250);
 
-			Y.one('.sql-box').setStyle('height', winHeight -220);
+			Y.one('.sql-box').setStyle('height', winHeight -250);
 
 			var resultsDiv = Y.one('.sql-editor .results');
 

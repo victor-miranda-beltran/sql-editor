@@ -90,6 +90,16 @@ public class SQLEngine implements Serializable {
 		return executionResult;
 	}
 
+	public ResultSet executeQuery( String query)
+			throws SQLException {
+
+		Connection conn = _liferayDS.getConnection();
+
+		Statement stmt = conn.createStatement();
+
+		return  executeQuery(conn, query);
+	}
+
 	public int executeUpdate(Connection conn, String query)
 			throws SQLException {
 

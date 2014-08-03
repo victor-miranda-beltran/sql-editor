@@ -45,26 +45,27 @@ public class SQLEngine implements Serializable {
 
 		Connection conn = _liferayDS.getConnection();
 
-		ResultSet rs;
 		long count = 0;
-		long rows = 0;
+		long rows;
 		ExecutionResult executionResult = new ExecutionResult();
+
+		JSONObject obj = JSONFactoryUtil.createJSONObject();
 
 		if (isSelectQuery(query)) {
 			count = getCount(conn, query);
 
 			String limitedQuery = getLimitedQuery(query, start, length);
 
-			rs = executeQuery(conn, limitedQuery);
+			ResultSet rs = executeQuery(conn, limitedQuery);
+
 			ResultSetMetaData md = rs.getMetaData();
+
 			int columns = md.getColumnCount();
 
 			while (rs.next()) {
-				JSONObject obj = JSONFactoryUtil.createJSONObject();
-
 				for(int i=1; i<=columns; ++i) {
 					String val = rs.getObject(i) != null ?
-							rs.getObject(i).toString() :null;
+						rs.getObject(i).toString() :null;
 
 					obj.put(md.getColumnName(i), val);
 				}
@@ -73,8 +74,6 @@ public class SQLEngine implements Serializable {
 			}
 		}
 		else {
-			JSONObject obj = JSONFactoryUtil.createJSONObject();
-
 			rows = executeUpdate(conn, query);
 
 			obj.put("Rows", rows);
@@ -87,24 +86,6 @@ public class SQLEngine implements Serializable {
 		executionResult.setQuery(query);
 
 		return executionResult;
-	}
-
-	public ResultSet executeQuery(String query)
-			throws SQLException {
-
-		Connection conn = _liferayDS.getConnection();
-
-		return executeQuery(conn, query);
-	}
-
-	public ResultSet executeQuery(Connection conn, String query)
-			throws SQLException {
-
-		Statement stmt = conn.createStatement();
-
-		ResultSet rs = stmt.executeQuery(query);
-
-		return rs;
 	}
 
 	public int executeUpdate(Connection conn, String query)
@@ -150,6 +131,14 @@ public class SQLEngine implements Serializable {
 		}
 
 		return tableArray;
+	}
+
+	private ResultSet executeQuery(Connection conn, String query)
+			throws SQLException {
+
+		Statement stmt = conn.createStatement();
+
+		return stmt.executeQuery(query);
 	}
 
 	private String getLimitedQuery(String query, int start, int length) {

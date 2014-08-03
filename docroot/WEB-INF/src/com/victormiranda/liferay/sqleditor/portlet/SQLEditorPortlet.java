@@ -42,7 +42,6 @@ import java.util.List;
  */
 public class SQLEditorPortlet extends MVCPortlet {
 
-
 	@Override
 	public void doView(
 			RenderRequest renderRequest, RenderResponse renderResponse)
@@ -126,6 +125,8 @@ public class SQLEditorPortlet extends MVCPortlet {
 	private void executeQuery(ResourceResponse response,
 			String query, int start, int length) throws IOException {
 
+		response.setContentType("application/json");
+
 		JSONObject result = JSONFactoryUtil.createJSONObject();
 
 		try {
@@ -172,7 +173,9 @@ public class SQLEditorPortlet extends MVCPortlet {
 
 			for (int i = 0; i < columnCount; i++) {
 				String colName = rsmd.getColumnLabel(i + 1);
+
 				columnNames.add(colName);
+
 				sb.append(colName);
 				sb.append(StringPool.COMMA);
 			}
@@ -180,14 +183,13 @@ public class SQLEditorPortlet extends MVCPortlet {
 
 			while (rs.next()) {
 				for (String columnName: columnNames) {
-
 					sb.append(rs.getObject(columnName));
-
 					sb.append(StringPool.COMMA);
-
 				}
+
 				sb.append(StringPool.NEW_LINE);
 			}
+
 			response.getWriter().write(sb.toString());
 
 		} catch (SQLException e) {

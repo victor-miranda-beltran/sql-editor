@@ -16,10 +16,6 @@ YUI.add('sql-autocomplete', function (Y, NAME) {
 				validator: Lang.isObject
 			},
 
-			variables: {
-				validator: Lang.isObject
-			},
-
 			schema: {
 				setter: function(val) {
 					var aux = [];

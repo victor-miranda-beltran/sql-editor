@@ -2,6 +2,7 @@ AUI.add('sql-editor', function (Y) {
 
 	var EMPTY_STR = '',
 		PAGE_SIZE = 10,
+		PORTLET_ID = 'sqleditor_WAR_sqleditorportlet',
 		_sqlProcessor = new Y.AceEditor.AutoCompleteSQL();
 
 	/**
@@ -30,7 +31,7 @@ AUI.add('sql-editor', function (Y) {
 
 			var aceEditor = new Y.AceEditor({
 				boundingBox: '.sql-editor .sql-box',
-				value: 'SELECT \n\t\t*\n\tFROM\n\t\tUser_\n\tWHERE\n\t\tUser_.userId != 3',
+				value: 'SELECT \n\t\t*\n\tFROM\n\t\tCountry;',
 				width: '100%',
 				mode: 'sql',
 				height: '100%',
@@ -190,7 +191,7 @@ AUI.add('sql-editor', function (Y) {
 			var resourceURL= Liferay.PortletURL.createResourceURL();
 			resourceURL.setParameter("query", sql);
 			resourceURL.setResourceId("exportCSV");
-			resourceURL.setPortletId("sqleditor_WAR_sqleditorportlet");
+			resourceURL.setPortletId(PORTLET_ID);
 
 			window.location.href = resourceURL.toString();
 		},
@@ -219,7 +220,7 @@ AUI.add('sql-editor', function (Y) {
 			var renderURL = Liferay.PortletURL.createRenderURL();
 			renderURL.setParameter("jspPage", "/pages/load-snippet.jsp");
 			renderURL.setWindowState("pop_up");
-			renderURL.setPortletId("sqleditor_WAR_sqleditorportlet");
+			renderURL.setPortletId(PORTLET_ID);
 
 			Liferay.Util.openWindow(
 				{
@@ -241,7 +242,7 @@ AUI.add('sql-editor', function (Y) {
 			renderURL.setParameter("query", sql);
 			renderURL.setParameter("jspPage", "/pages/save-snippet.jsp");
 			renderURL.setWindowState("pop_up");
-			renderURL.setPortletId("sqleditor_WAR_sqleditorportlet");
+			renderURL.setPortletId(PORTLET_ID);
 
 			Liferay.Util.openWindow(
 				{

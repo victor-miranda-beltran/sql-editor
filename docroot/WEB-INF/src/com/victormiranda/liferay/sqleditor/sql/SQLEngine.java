@@ -34,6 +34,7 @@ public class SQLEngine implements Serializable {
 		if (_instance == null) {
 			_instance = new SQLEngine();
 		}
+
 		return _instance;
 	}
 
@@ -60,7 +61,7 @@ public class SQLEngine implements Serializable {
 
 			for(int i=1; i<=columns; ++i) {
 				String val = rs.getObject(i) != null ?
-						rs.getObject(i).toString() :null;
+					rs.getObject(i).toString() :null;
 
 				obj.put(md.getColumnName(i), val);
 			}
@@ -114,6 +115,7 @@ public class SQLEngine implements Serializable {
 
 			for (String tableField : tableFieldsList) {
 				JSONObject tableFieldObj = JSONFactoryUtil.createJSONObject();
+
 				tableFieldObj.put("label", tableField);
 				tableFieldObj.put("id", tableField);
 

@@ -273,6 +273,7 @@ AUI.add('sql-editor', function (Y) {
 				{
 					scrollable: "xy",
 					width: '100%',
+					height: '100%',
 					destroyOnHide:true
 				}
 			);
@@ -312,11 +313,11 @@ AUI.add('sql-editor', function (Y) {
 
 			var winHeight = Y.one("body").get("winHeight");
 
-			Y.one('.objects-tree').setStyle('height', winHeight -250);
+			Y.one('.objects-tree').setStyle('height', winHeight -260);
 
-			Y.one('.editor').setStyle('height', winHeight -250);
+			Y.one('.editor').setStyle('height', winHeight -260);
 
-			Y.one('.sql-box').setStyle('height', winHeight -250);
+			Y.one('.sql-box').setStyle('height', winHeight -260);
 
 			var resultsDiv = Y.one('.sql-editor .results');
 

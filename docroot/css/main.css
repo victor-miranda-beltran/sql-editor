@@ -47,11 +47,11 @@
 }
 
 .sql-editor .results td {
-	max-width: 100px;
+	max-width: 120px;
+	padding:0px 10px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	background: #FFF;
 }
 
 .sql-editor .pagination {
@@ -66,8 +66,7 @@
 	 margin-right: 3px;
 	 font-weight: bold;
 	 font-size: 0.60em;
-	 text-align: cen
-	 ter;
+	 text-align: center;
 	 margin-top: 2px;
 	 padding: 0px 2px;
 	 display: inline-block;

@@ -58,3 +58,37 @@
 	margin-bottom: 0;
 	padding-bottom: 0;
 }
+
+ .ace-auto-table, .ace-auto-keyword,.ace-auto-field {
+	padding-right: 10px;
+}
+ .ace-auto-table:before, .ace-auto-keyword:before, .ace-auto-field:before {
+	 margin-right: 3px;
+	 font-weight: bold;
+	 font-size: 0.60em;
+	 text-align: cen
+	 ter;
+	 margin-top: 2px;
+	 padding: 0px 2px;
+	 display: inline-block;
+	 border: 2px solid #333;
+	 width:20px;
+	 color:white;
+	 border-radius: 3px;
+ }
+
+.ace-auto-keyword:before {
+	content: "Key" ;
+	background: #EA9700;
+}
+
+.ace-auto-table:before {
+	content: "Table" ;
+	background: #27BA5B;
+}
+
+.ace-auto-field:before {
+	content: "Field" ;
+	background: #007af4;
+}
+

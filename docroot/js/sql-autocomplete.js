@@ -1,42 +1,18 @@
-YUI.add('sql-autocomplete', function (Y, NAME) {
+YUI.add('sql-autocomplete', function (A, NAME) {
 
-	var Lang = Y.Lang,
+	var Lang = A.Lang,
 		DOT = '.',
 		STR_EMPTY = '',
+		Base = A.AceEditor.AutoCompleteBase,
+
 		SQL_WORDS = ['SELECT','FROM','WHERE','INSERT','UPDATE','DELETE','JOIN','AND','OR','ALTER','UNION','DISTINCT','COUNT','NULL','NOT'],
 
-		NAME = 'sql-autocomplete';
+		_NAME = 'sql-autocomplete'
 
-	var SQL = Y.Component.create({
-		NAME: NAME,
-
-		NS: NAME,
-
-		ATTRS: {
-			host: {
-				validator: Lang.isObject
-			},
-
-			schema: {
-				setter: function(val) {
-					var aux = [];
-					for (var i in val) {
-						aux.push({'table':val[i].label,fields: val[i].children});
-					}
-					return aux;
-				}
-			}
-		},
-
-		EXTENDS: Y.Base,
-
-		prototype: {
-			initializer: function(config) {
-				var instance = this;
-			},
+		SQL = A.Base.create(_NAME, A.AceEditor.TemplateProcessor, [
+		], {
 
 			getMatch: function(content) {
-
 				var instance = this;
 
 				var match;
@@ -47,8 +23,6 @@ YUI.add('sql-autocomplete', function (Y, NAME) {
 
 				content = words[words.length -1];
 
-				console.log('getMatch ' + content);
-
 				match = {
 					content: content,
 					start: matchIndex
@@ -56,7 +30,6 @@ YUI.add('sql-autocomplete', function (Y, NAME) {
 
 				return match;
 			},
-
 			getResults: function(match, callbackSuccess, callbackError) {
 				var instance = this;
 
@@ -85,7 +58,10 @@ YUI.add('sql-autocomplete', function (Y, NAME) {
 
 						var lastLetter = match.content.charAt(match.content.length-1);
 
-						if (lastLetter !== lastLetter.toUpperCase()) {
+						if (match.content.length == 1) {
+							match.content = selectedSuggestion.charAt(0);
+						}
+						else if ( lastLetter !== lastLetter.toUpperCase()) {
 							result = result.toLowerCase();
 						}
 					}
@@ -104,7 +80,7 @@ YUI.add('sql-autocomplete', function (Y, NAME) {
 				if (contentToSQLWords.length > 0) {
 					for (var i in SQL_WORDS) {
 						if (SQL_WORDS[i].toLowerCase().indexOf(contentToSQLWords.toLowerCase()) == 0) {
-							matches.push(SQL_WORDS[i]);
+							matches.push('<span class="ace-auto-keyword">'+SQL_WORDS[i]+'</span>');
 						}
 					}
 				}
@@ -126,15 +102,15 @@ YUI.add('sql-autocomplete', function (Y, NAME) {
 					var resTables = instance._getTablesWithAliases(
 						contentParts[0].trim(), editorContent);
 
-						for (var i in resTables) {
-							for (var j in resTables[i].fields) {
-								var f = resTables[i].fields[j];
-								if (f.label.toLowerCase().indexOf(
-										contentParts[1].toLowerCase()) == 0) {
-									matches.push(f.label);
-								}
+					for (var i in resTables) {
+						for (var j in resTables[i].fields) {
+							var f = resTables[i].fields[j];
+							if (f.label.toLowerCase().indexOf(
+								contentParts[1].toLowerCase()) == 0) {
+								matches.push('<span class="ace-auto-field">'+ f.label+'</span>');
 							}
 						}
+					}
 				}
 
 				return matches;
@@ -143,7 +119,7 @@ YUI.add('sql-autocomplete', function (Y, NAME) {
 			_getTableMatches: function(content) {
 				var instance = this;
 
-				if (!content || content.lengt === 0) {
+				if (!content || content.trim().length === 0) {
 					return;
 				}
 
@@ -155,7 +131,8 @@ YUI.add('sql-autocomplete', function (Y, NAME) {
 
 				for (var i = 0 in tables) {
 					if (tables[i].table.toLowerCase().indexOf(content.toLowerCase()) === 0) {
-						matches.push(tables[i].table);
+						matches.push('<span class="ace-auto-table">'+tables[i].table+'</span>');
+
 					}
 				}
 
@@ -212,10 +189,29 @@ YUI.add('sql-autocomplete', function (Y, NAME) {
 
 				return;
 			}
+		}, {
 
-		}
-	});
+			NAME: _NAME,
 
-	Y.AceEditor.AutoCompleteSQL = SQL;
+			NS: _NAME,
 
-}, '0.0.1', {"requires": ["aui-ace-autocomplete-base", "aui-search-tst"]});
+			ATTRS: {
+				host: {
+					validator: Lang.isObject
+				},
+
+				schema: {
+					setter: function(val) {
+						var aux = [];
+						for (var i in val) {
+							aux.push({'table':val[i].label,fields: val[i].children});
+						}
+						return aux;
+					}
+				}
+			}
+		});
+
+	A.AceEditor.AutoCompleteSQL = SQL;
+
+}, '2.0.0', {"requires": ["aui-ace-autocomplete-templateprocessor","autocomplete-base"]});

@@ -129,6 +129,12 @@ AUI.add('sql-editor', function (Y) {
 				instance.filterObjectTree(e.currentTarget.val());
 			});
 
+			var filterResults = Y.one('.sql-editor .input-filter-results');
+
+			filterResults.on('keyup', function (e) {
+				instance.filterResults(e.currentTarget.val());
+			});
+
 			Y.on('windowresize', instance._adjustSize);
 		},
 
@@ -170,10 +176,12 @@ AUI.add('sql-editor', function (Y) {
 						var data = JSON.parse(this.get('responseData'));
 
 						var rs = data.results;
+						instance.set('resultSet', rs);
+
 						var numElements = data.numElements;
 						var paginated = data.paginated;
 
-						instance._showResults(numElements, rs, paginated);
+						instance._showResults(rs, paginated, numElements);
 					},
 					complete : function() {
 						instance.set('blocked', false);
@@ -212,6 +220,30 @@ AUI.add('sql-editor', function (Y) {
 					Y.one('#' + tableId).hide();
 				}
 			}
+		},
+
+		filterResults : function(filter) {
+			var instance = this;
+
+			var totalResultSet = instance.get('resultSet');
+
+			var filteredSet = [];
+
+			if (filter.length == 0) {
+				filteredSet = totalResultSet;
+			}
+			else {
+				for ( var i in totalResultSet) {
+					for ( var j in totalResultSet[i]) {
+						if (totalResultSet[i][j].toLowerCase().indexOf(filter.toLowerCase()) != -1) {
+							filteredSet.push(totalResultSet[i]);
+							continue;
+						}
+					}
+				}
+			}
+
+			instance._showResults(filteredSet, false);
 		},
 
 		_openLoadSnippetDialog : function() {
@@ -258,7 +290,7 @@ AUI.add('sql-editor', function (Y) {
 
 		},
 
-		_showResults : function(numElements, rs, paginated) {
+		_showResults : function(rs, paginated, numElements) {
 
 			var instance = this;
 
@@ -369,6 +401,9 @@ AUI.add('sql-editor', function (Y) {
 				value: 10
 			},
 			fontSize: {
+				value: undefined
+			},
+			resultSet: {
 				value: undefined
 			}
 		}

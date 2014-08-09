@@ -25,6 +25,8 @@
 
 	int pageSize = Integer.valueOf(prefs.getValue("pageSize", "10"));
 
+	boolean paginate = Boolean.valueOf(prefs.getValue("paginate", "true"));
+
 	int fontSize = Integer.valueOf(prefs.getValue("fontSize","10"));
 %>
 
@@ -70,12 +72,19 @@
 					<div class="results-toolbar toolbar">
 						<aui:button-row>
 							<aui:button icon="icon-download" value="Export as CSV" disabled="disabled" cssClass="btn export-csv"></aui:button>
-							<div class="input-append pull-right">
-								<input class="input-search-table input-small" placeholder="Filter ..." type="text"/>
-								<button type="submit" class="btn">
-									<i class="icon-search"></i>
-								</button>
-							</div>
+
+							<%
+								if (!paginate) {
+							%>
+								<div class="input-append pull-right">
+									<input class="input-filter-results input-small" placeholder="Filter ..." type="text"/>
+									<button type="submit" class="btn">
+										<i class="icon-search"></i>
+									</button>
+								</div>
+							<%
+								}
+							%>
 						</aui:button-row>
 					</div>
 

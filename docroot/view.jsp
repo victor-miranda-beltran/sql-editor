@@ -73,6 +73,8 @@
 						<aui:button-row>
 							<aui:button icon="icon-download" value="Export as CSV" disabled="disabled" cssClass="btn export-csv"></aui:button>
 
+							<aui:input inlineField="true" cssClass="expand-fields" name="check" label="Expand fields" type="checkbox" value="false"></aui:input>
+
 							<%
 								if (!paginate) {
 							%>
@@ -88,7 +90,7 @@
 						</aui:button-row>
 					</div>
 
-					<div class="results-dt">
+					<div class="results-dt collapsed">
 
 					</div>
 

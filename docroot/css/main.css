@@ -63,6 +63,10 @@
 	max-width: 120px;
 	padding:0px 3px;
 	overflow: hidden;
+
+}
+
+.sql-editor .results .collapsed td {;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }

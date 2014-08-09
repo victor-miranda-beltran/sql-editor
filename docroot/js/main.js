@@ -131,8 +131,22 @@ AUI.add('sql-editor', function (Y) {
 
 			var filterResults = Y.one('.sql-editor .input-filter-results');
 
-			filterResults.on('keyup', function (e) {
-				instance.filterResults(e.currentTarget.val());
+			if (filterResults) {
+				filterResults.on('keyup', function (e) {
+					instance.filterResults(e.currentTarget.val());
+				});
+			}
+
+			var expandFieldsCheckbox = Y.one('.sql-editor .expand-fields');
+
+			expandFieldsCheckbox.on('click', function (e) {
+				var checked = e.currentTarget.get('checked');
+				if (checked) {
+					Y.one('.results .results-dt').removeClass('collapsed');
+				}
+				else {
+					Y.one('.results .results-dt').addClass('collapsed');
+				}
 			});
 
 			Y.on('windowresize', instance._adjustSize);

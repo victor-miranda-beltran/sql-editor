@@ -1,5 +1,4 @@
-<%@ page import="com.liferay.portal.kernel.util.PrefsPropsUtil" %>
-
+<%@ page import="javax.portlet.PortletPreferences" %>
 <%
 /**
  * Copyright (c) 2014-present Victor Miranda. All rights reserved.
@@ -19,11 +18,16 @@
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
 
+<portlet:defineObjects />
+
 <%
-	long pageSize = PrefsPropsUtil.getLong("pageSize", 10);
+	PortletPreferences prefs = renderRequest.getPreferences();
+
+	int pageSize = Integer.valueOf(prefs.getValue("pageSize", "10"));
+
+	int fontSize = Integer.valueOf(prefs.getValue("fontSize","10"));
 %>
 
-<portlet:defineObjects />
 
 <div class="sql-editor hide">
 
@@ -85,7 +89,8 @@
 			tables: JSON.parse('${tables}'),
 			executeQueryActionURL: '<portlet:resourceURL id="executeQuery"></portlet:resourceURL>',
 			exportCSVActionURL: '<portlet:resourceURL id="exportCSV"></portlet:resourceURL>',
-			pageSize: <%=pageSize%>
+			pageSize: <%=pageSize%>,
+			fontSize: <%=fontSize%>
 		});
 
 		sqlEditor.render();

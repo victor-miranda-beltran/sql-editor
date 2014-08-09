@@ -9,9 +9,15 @@
 			<name>view-template</name>
 			<value>/view.jsp</value>
 		</init-param>
+		<init-param>
+			<name>edit-template</name>
+			<value>/edit_config.jsp</value>
+		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
 		</supports>
 		<portlet-info>
 			<title>SQL Editor</title>

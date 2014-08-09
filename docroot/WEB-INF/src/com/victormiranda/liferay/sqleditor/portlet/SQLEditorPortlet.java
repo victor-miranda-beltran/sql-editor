@@ -9,7 +9,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.User;
@@ -101,6 +100,25 @@ public class SQLEditorPortlet extends MVCPortlet {
 	}
 
 
+	@ProcessAction(name = "savePreferences")
+	public void savePreferences(
+			ActionRequest actionRequest, ActionResponse actionResponse) throws
+		PortletException, java.io.IOException {
+
+		String fontSize = ParamUtil.getString(actionRequest, "fontSize");
+		String pagination = String.valueOf(ParamUtil.getBoolean(actionRequest, "pagination",false));
+		String pageSize = ParamUtil.getString(actionRequest, "pageSize");
+
+		PortletPreferences prefs = actionRequest.getPreferences();
+
+		prefs.setValue("fontSize", fontSize);
+		prefs.setValue("paginate", pagination);
+		prefs.setValue("pageSize", pageSize);
+
+		prefs.store();
+	}
+
+
 	@Override
 	public void serveResource(ResourceRequest request, ResourceResponse response)
 			throws IOException {
@@ -112,19 +130,16 @@ public class SQLEditorPortlet extends MVCPortlet {
 		if (EXECUTE_SQL_RESOURCE_ID.equals(resourceId)) {
 			String query = ParamUtil.getString(request, "query");
 
-			boolean paginate = false;
-			int pageSize;
-			try {
-				paginate = PrefsPropsUtil.getBoolean("paginate", true);
-				pageSize = PrefsPropsUtil.getInteger("pageSize", 10);
-				int start = ParamUtil.getInteger(request, "start", -1);
-				int length = ParamUtil.getInteger(request, "length", pageSize);
+			boolean paginate = Boolean.valueOf(
+				request.getPreferences().getValue("paginate","true"));
 
-				executeQuery(response, query, paginate, start, length);
-			}
-			catch (SystemException e) {
-				_log.error("Error getting paginate preference");
-			}
+			int pageSize = Integer.valueOf(
+				request.getPreferences().getValue("pageSize","10"));
+
+			int start = ParamUtil.getInteger(request, "start", -1);
+			int length = ParamUtil.getInteger(request, "length", pageSize);
+
+			executeQuery(response, query, paginate, start, length);
 		}
 		else if (EXPORT_CSV_RESOURCE_ID.equals(resourceId)) {
 			String query = ParamUtil.getString(request, "query");

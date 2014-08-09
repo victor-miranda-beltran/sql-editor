@@ -172,8 +172,9 @@ AUI.add('sql-editor', function (Y) {
 
 						var rs = data.results;
 						var numElements = data.numElements;
+						var paginated = data.paginated;
 
-						instance._showResults(numElements, rs);
+						instance._showResults(numElements, rs, paginated);
 					},
 					complete : function() {
 						instance.set('blocked', false);
@@ -258,7 +259,7 @@ AUI.add('sql-editor', function (Y) {
 
 		},
 
-		_showResults : function(numElements, rs) {
+		_showResults : function(numElements, rs, paginated) {
 
 			var instance = this;
 
@@ -302,10 +303,10 @@ AUI.add('sql-editor', function (Y) {
 
 			instance.get('aceEditor').getEditor().resize();
 
-			instance.get('paginator').set('total',(numElements / PAGE_SIZE) + 1);
-
-			instance.get('paginator').render();
-
+			if (paginated === true) {
+				instance.get('paginator').set('total',(numElements / PAGE_SIZE) + 1);
+				instance.get('paginator').render();
+			}
 		},
 
 		_adjustSize : function() {

@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.User;
@@ -24,6 +25,7 @@ import com.victormiranda.liferay.sqleditor.sql.SQLEngine;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
 import javax.portlet.ProcessAction;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -110,10 +112,19 @@ public class SQLEditorPortlet extends MVCPortlet {
 		if (EXECUTE_SQL_RESOURCE_ID.equals(resourceId)) {
 			String query = ParamUtil.getString(request, "query");
 
+			boolean paginate = false;
+
+			try {
+				paginate = PrefsPropsUtil.getBoolean("paginate", true);
+			}
+			catch (SystemException e) {
+				_log.error("Error getting paginate preference");
+			}
+
 			int start = ParamUtil.getInteger(request, "start", -1);
 			int length = ParamUtil.getInteger(request, "length", -1);
 
-			executeQuery(response, query, start, length);
+			executeQuery(response, query, paginate, start, length);
 		}
 		else if (EXPORT_CSV_RESOURCE_ID.equals(resourceId)) {
 			String query = ParamUtil.getString(request, "query");
@@ -123,7 +134,7 @@ public class SQLEditorPortlet extends MVCPortlet {
 	}
 
 	private void executeQuery(ResourceResponse response,
-			String query, int start, int length) throws IOException {
+			String query, boolean paginate, int start, int length) throws IOException {
 
 		response.setContentType("application/json");
 
@@ -132,11 +143,19 @@ public class SQLEditorPortlet extends MVCPortlet {
 		try {
 			result = JSONFactoryUtil.createJSONObject();
 
-			ExecutionResult executionResult =
-				SQLEngine.getInstance().runSQL(query,start,length);
+			ExecutionResult executionResult;
+
+			if (paginate) {
+				executionResult= SQLEngine.getInstance().runPaginatedSQL(
+						query, start, length);
+			}
+			else {
+				executionResult= SQLEngine.getInstance().runSQL(query);
+			}
 
 			result.put("results", executionResult.getResults());
 			result.put("numElements", executionResult.getNumElements());
+			result.put("paginated", paginate);
 		} catch (SQLException e) {
 			JSONArray errorResult = JSONFactoryUtil.createJSONArray();
 
@@ -145,7 +164,6 @@ public class SQLEditorPortlet extends MVCPortlet {
 			errorObject.put("error", e.getMessage());
 
 			errorResult.put(errorObject);
-
 
 			result.put("results", errorResult);
 		}

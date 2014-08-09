@@ -44,13 +44,12 @@
 
 .sql-editor .results .table {
 	margin-bottom: 0px;
-	max-height: 200px;
+	max-height: 230px;
 }
 
 .sql-editor .results .table th {
 	padding: 0px 3px;
 }
-
 
 .sql-editor .results td {
 	max-width: 120px;

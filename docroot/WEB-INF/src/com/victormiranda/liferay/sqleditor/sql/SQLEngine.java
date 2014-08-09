@@ -38,25 +38,20 @@ public class SQLEngine implements Serializable {
 		return _instance;
 	}
 
-	public ExecutionResult runSQL(String query, int start, int length)
-		throws SQLException {
+	public ExecutionResult runSQL(String query) throws SQLException {
 
 		JSONArray results = JSONFactoryUtil.createJSONArray();
 
 		Connection conn = _liferayDS.getConnection();
 
-		long count = 0;
 		long rows;
 		ExecutionResult executionResult = new ExecutionResult();
 
 		JSONObject obj = JSONFactoryUtil.createJSONObject();
 
 		if (isSelectQuery(query)) {
-			count = getCount(conn, query);
 
-			String limitedQuery = getLimitedQuery(query, start, length);
-
-			ResultSet rs = executeQuery(conn, limitedQuery);
+			ResultSet rs = executeQuery(conn, query);
 
 			ResultSetMetaData md = rs.getMetaData();
 
@@ -67,7 +62,7 @@ public class SQLEngine implements Serializable {
 
 				for(int i=1; i<=columns; ++i) {
 					String val = rs.getObject(i) != null ?
-						rs.getObject(i).toString() :null;
+							rs.getObject(i).toString() :null;
 
 					obj.put(md.getColumnName(i), val);
 				}
@@ -84,8 +79,30 @@ public class SQLEngine implements Serializable {
 		}
 
 		executionResult.setResults(results);
-		executionResult.setNumElements(count);
+		executionResult.setNumElements(results.length());
 		executionResult.setQuery(query);
+
+		return executionResult;
+	}
+
+	public ExecutionResult runPaginatedSQL(String query, int start, int length)
+		throws SQLException {
+
+		ExecutionResult executionResult;
+
+		if (isSelectQuery(query)) {
+
+			long count = getCount(_liferayDS.getConnection(), query);
+
+			String limitedQuery = getLimitedQuery(query, start, length);
+
+			executionResult = runSQL(limitedQuery);
+
+			executionResult.setNumElements(count);
+		}
+		else {
+			executionResult = runSQL(query);
+		}
 
 		return executionResult;
 	}

@@ -1,3 +1,5 @@
+<%@ page import="com.liferay.portal.kernel.util.PrefsPropsUtil" %>
+
 <%
 /**
  * Copyright (c) 2014-present Victor Miranda. All rights reserved.
@@ -16,6 +18,10 @@
 
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
+
+<%
+	long pageSize = PrefsPropsUtil.getLong("pageSize", 10);
+%>
 
 <portlet:defineObjects />
 
@@ -78,7 +84,8 @@
 		sqlEditor = new Y.SQLEditor({
 			tables: JSON.parse('${tables}'),
 			executeQueryActionURL: '<portlet:resourceURL id="executeQuery"></portlet:resourceURL>',
-			exportCSVActionURL: '<portlet:resourceURL id="exportCSV"></portlet:resourceURL>'
+			exportCSVActionURL: '<portlet:resourceURL id="exportCSV"></portlet:resourceURL>',
+			pageSize: <%=pageSize%>
 		});
 
 		sqlEditor.render();

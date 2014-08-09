@@ -113,18 +113,18 @@ public class SQLEditorPortlet extends MVCPortlet {
 			String query = ParamUtil.getString(request, "query");
 
 			boolean paginate = false;
-
+			int pageSize;
 			try {
 				paginate = PrefsPropsUtil.getBoolean("paginate", true);
+				pageSize = PrefsPropsUtil.getInteger("pageSize", 10);
+				int start = ParamUtil.getInteger(request, "start", -1);
+				int length = ParamUtil.getInteger(request, "length", pageSize);
+
+				executeQuery(response, query, paginate, start, length);
 			}
 			catch (SystemException e) {
 				_log.error("Error getting paginate preference");
 			}
-
-			int start = ParamUtil.getInteger(request, "start", -1);
-			int length = ParamUtil.getInteger(request, "length", -1);
-
-			executeQuery(response, query, paginate, start, length);
 		}
 		else if (EXPORT_CSV_RESOURCE_ID.equals(resourceId)) {
 			String query = ParamUtil.getString(request, "query");

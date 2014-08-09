@@ -1,7 +1,6 @@
 AUI.add('sql-editor', function (Y) {
 
 	var EMPTY_STR = '',
-		PAGE_SIZE = 10,
 		PORTLET_ID = 'sqleditor_WAR_sqleditorportlet',
 		_sqlProcessor = new Y.AceEditor.AutoCompleteSQL();
 
@@ -58,10 +57,10 @@ AUI.add('sql-editor', function (Y) {
 				{
 					after: {
 						changeRequest: function(event) {
-							var start = (event.state.page-1) * PAGE_SIZE;
+							var start = (event.state.page-1) * instance.get('pageSize');
 							var sql = instance.get('latestQuery');
 
-							instance._executeQuery(sql, start, PAGE_SIZE);
+							instance._executeQuery(sql, start, instance.get('pageSize'));
 						}
 					},
 					boundingBox: '.paginator',
@@ -304,7 +303,7 @@ AUI.add('sql-editor', function (Y) {
 			instance.get('aceEditor').getEditor().resize();
 
 			if (paginated === true) {
-				instance.get('paginator').set('total',(numElements / PAGE_SIZE) + 1);
+				instance.get('paginator').set('total',(numElements / instance.get('pageSize')) + 1);
 				instance.get('paginator').render();
 			}
 		},
@@ -362,6 +361,9 @@ AUI.add('sql-editor', function (Y) {
 			},
 			latestQuery : {
 				value: undefined
+			},
+			pageSize: {
+				value: 10
 			}
 		}
 	});

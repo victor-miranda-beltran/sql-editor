@@ -177,7 +177,6 @@ public class SQLEngine implements Serializable {
 
 		if (start == -1) {
 			start = 0;
-			length = 10;
 		}
 
 		query = dialog.getLimitQuery(query, start, length);

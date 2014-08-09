@@ -57,7 +57,6 @@
 					<aui:button icon="icon-play" value="Execute query" cssClass="btn btn-primary execute-query"></aui:button>
 					<aui:button icon="icon-save" value="Save as snippet" cssClass="btn btn-primary save-snippet"></aui:button>
 					<aui:button icon="icon-cloud-download" value="Load snippet" cssClass="btn btn-primary load-snippet"></aui:button>
-					<aui:button icon="icon-download" value="Export as CSV" disabled="disabled" cssClass="btn btn-primary export-csv"></aui:button>
 				</aui:button-row>
 			</div>
 
@@ -66,7 +65,23 @@
 
 				</div>
 
-				<div class="results">
+				<div class="results hide">
+
+					<div class="results-toolbar toolbar">
+						<aui:button-row>
+							<aui:button icon="icon-download" value="Export as CSV" disabled="disabled" cssClass="btn export-csv"></aui:button>
+							<div class="input-append pull-right">
+								<input class="input-search-table input-small" placeholder="Filter ..." type="text"/>
+								<button type="submit" class="btn">
+									<i class="icon-search"></i>
+								</button>
+							</div>
+						</aui:button-row>
+					</div>
+
+					<div class="results-dt">
+
+					</div>
 
 				</div>
 			</div>

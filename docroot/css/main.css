@@ -42,6 +42,14 @@
 	right: 0;
 }
 
+.sql-editor .results .results-toolbar {
+	background: #DFDFDF;
+}
+
+.sql-editor .results .results-toolbar input {
+	margin-bottom:0px;
+}
+
 .sql-editor .results .table {
 	margin-bottom: 0px;
 	max-height: 230px;

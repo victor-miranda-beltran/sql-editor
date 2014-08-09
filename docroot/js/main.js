@@ -266,7 +266,7 @@ AUI.add('sql-editor', function (Y) {
 
 			if(resultDT) {
 				resultDT.hide();
-				Y.one('.sql-editor .results').html(EMPTY_STR);
+				Y.one('.sql-editor .results .results-dt').html(EMPTY_STR);
 			}
 
 			resultDT = new Y.DataTable(
@@ -287,9 +287,12 @@ AUI.add('sql-editor', function (Y) {
 				resultDT.set('recordset', rs);
 			}
 
-			resultDT.render('.results');
-
 			var resultsDiv = Y.one('.sql-editor .results');
+
+			resultsDiv.show();
+
+			resultDT.render('.results-dt');
+
 
 			var aceDiv = Y.one('.sql-editor .sql-box');
 

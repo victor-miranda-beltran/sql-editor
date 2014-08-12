@@ -141,13 +141,18 @@ AUI.add('sql-editor', function (Y) {
 
 			expandFieldsCheckbox.on('click', function (e) {
 				var checked = e.currentTarget.get('checked');
-				if (checked) {
+
+                var filterValue = Y.one('.sql-editor .input-filter-results').val();
+
+                if (checked) {
 					Y.one('.results .results-dt').removeClass('collapsed');
 				}
 				else {
 					Y.one('.results .results-dt').addClass('collapsed');
 				}
-			});
+
+                instance.filterResults(filterValue);
+            });
 
 			Y.on('windowresize', instance._adjustSize);
 		},

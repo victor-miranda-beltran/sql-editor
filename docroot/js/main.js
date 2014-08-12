@@ -256,7 +256,7 @@ AUI.add('sql-editor', function (Y) {
 					for ( var j in totalResultSet[i]) {
 						if (totalResultSet[i][j].toLowerCase().indexOf(filter.toLowerCase()) != -1) {
 							filteredSet.push(totalResultSet[i]);
-							continue;
+							break;
 						}
 					}
 				}

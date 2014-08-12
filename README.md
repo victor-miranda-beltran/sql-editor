@@ -12,6 +12,7 @@ At this time, this portlet works with liferay 6.2 and these DBs:
 
 If your DB is not included, you can contribute writing a new SQLDialog. Its very simple
 
+This portlet has been tested in Chrome 36, Safari 8.0 and Firefox 31
 
 ## Usage
 
@@ -24,9 +25,11 @@ You can download the war file from github [WAR] (https://github.com/victormirand
 ### Option 3 - Fork and build
 You can fork this repo and build the portlet with Liferay SDK
 
-## Screenshot
-![sql editor](https://raw.githubusercontent.com/victormiranda/sql-editor/master/screenshots/select-query.png)
+## Screencast
+![sql editor](https://raw.githubusercontent.com/victormiranda/sql-editor/master/screenshots/screencast.gif)
 
+# Project status
+This project is under development, so new features will be added ASAP. If you want to contibrute, go ahead :D
 
 ## Features
 
@@ -44,8 +47,3 @@ You can fork this repo and build the portlet with Liferay SDK
 
 ### Export results in CSV Format
 ![sql editor](https://raw.githubusercontent.com/victormiranda/sql-editor/master/screenshots/export-csv.png)
-
-
-# Project status
-This project is under development, so new features will be added ASAP. If you want to contibrute, go ahead :D
-

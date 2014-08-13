@@ -25,9 +25,9 @@
 
 	int pageSize = Integer.valueOf(prefs.getValue("pageSize", "10"));
 
-	boolean paginate = Boolean.valueOf(prefs.getValue("paginate", "true"));
+	boolean paginate = Boolean.valueOf(prefs.getValue("paginate", "false"));
 
-	int fontSize = Integer.valueOf(prefs.getValue("fontSize","10"));
+	int fontSize = Integer.valueOf(prefs.getValue("fontSize","14"));
 %>
 
 

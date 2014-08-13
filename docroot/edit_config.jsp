@@ -28,11 +28,11 @@
 <%
 	PortletPreferences preferences = renderRequest.getPreferences();
 
-	int fontSize = Integer.valueOf(preferences.getValue("fontSize","10"));
+	int fontSize = Integer.valueOf(preferences.getValue("fontSize","14"));
 
 	int pageSize = Integer.valueOf(preferences.getValue("pageSize","10"));
 
-	boolean paginate = Boolean.valueOf(preferences.getValue("paginate","true"));
+	boolean paginate = Boolean.valueOf(preferences.getValue("paginate","false"));
 
 %>
 <aui:form class="form-horizontal" name='<portlet:namespace />fmPrefs'

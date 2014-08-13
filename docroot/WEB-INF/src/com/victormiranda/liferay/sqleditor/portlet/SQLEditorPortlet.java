@@ -131,10 +131,10 @@ public class SQLEditorPortlet extends MVCPortlet {
 			String query = ParamUtil.getString(request, "query");
 
 			boolean paginate = Boolean.valueOf(
-				request.getPreferences().getValue("paginate","true"));
+				request.getPreferences().getValue("paginate","false"));
 
 			int pageSize = Integer.valueOf(
-				request.getPreferences().getValue("pageSize","10"));
+				request.getPreferences().getValue("pageSize","14"));
 
 			int start = ParamUtil.getInteger(request, "start", -1);
 			int length = ParamUtil.getInteger(request, "length", pageSize);

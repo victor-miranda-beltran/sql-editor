@@ -1,10 +1,11 @@
 # SQL Editor Portlet
 
-[SQL Editor](https://github.com/victormiranda/sql-editor) is a liferay portlet designed for interacting with your portal database.
+[SQL Editor](https://github.com/victormiranda/sql-editor) is a Liferay portlet designed for interacting with your portal's database.
+
 You don't need to have direct access to your DB Machine, the connection is got from portal infraestructure.
 
 ## Compatibility.
-At this time, this portlet works with liferay 6.2 and these DBs:
+At this time, this portlet works with Liferay 6.2 and these DBs:
 - MySQL
 - Oracle (tested with 10G)
 - Postgres
@@ -12,7 +13,7 @@ At this time, this portlet works with liferay 6.2 and these DBs:
 
 If your DB is not included, you can contribute writing a new SQLDialog. Its very simple
 
-This portlet has been tested in Chrome 36, Safari 8.0 and Firefox 31
+This portlet has been tested on Chrome 36, Safari 8.0 and Firefox 31
 
 ## Usage
 
@@ -23,10 +24,10 @@ This portlet will be located in [Liferay Marketplace](http://www.liferay.com/mar
 You can download the war file from github [WAR] (https://github.com/victormiranda/sql-editor/blob/master/dist/sql-editor.war?raw=true) and set it in DEPLOY folder.
 
 ### Option 3 - Fork and build
-You can fork this repo and build the portlet with Liferay SDK
+You can fork this repo and build the portlet using the Liferay SDK
 
 ##Access in portal
-You can access to this portlet in Control panel - Configuration - SQL Editor
+You can access this portlet in Control panel - Configuration - SQL Editor
 
 ## Some tips
 You can launch queries with shortcut <kbd>CTRL</kbd> + <kbd>INTRO</kbd> or <kbd>&#8984;</kbd> + <kbd>INTRO</kbd>. More shortcuts will be added.
@@ -35,7 +36,7 @@ You can launch queries with shortcut <kbd>CTRL</kbd> + <kbd>INTRO</kbd> or <kbd>
 ![sql editor](https://raw.githubusercontent.com/victormiranda/sql-editor/master/screenshots/screencast.gif)
 
 # Project status
-This project is under heavy development, so new features will be added ASAP. If you want to contibrute, go ahead :D
+This project is under heavy development, so new features will be added ASAP. If you want to contribute, go ahead :D
 
 ## Features
 
